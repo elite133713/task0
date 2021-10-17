@@ -55,4 +55,12 @@ interface ProductRepositoryContract extends RepositoryContract
      * @return ProductRepositoryContract
      */
     public function filterByIds(array $values, bool $contains = true): ProductRepositoryContract;
+
+    /**
+     * @param array $values
+     * @param bool  $contains
+     *
+     * @return ProductRepositoryContract
+     */
+    public function filterByCodes(array $values, bool $contains = true): ProductRepositoryContract;
 }

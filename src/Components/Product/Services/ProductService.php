@@ -127,6 +127,12 @@ class ProductService implements ProductServiceContract
             $isContains = filter_var(Arr::get($filter, 'ids.scopes.has', true), FILTER_VALIDATE_BOOLEAN);
             $this->repository->filterByIds($needleScopes, $isContains);
         }
+
+        if (Arr::has($filter, 'codes')) {
+            $needleScopes = Arr::get($filter, 'codes.scopes.collection', []);
+            $isContains = filter_var(Arr::get($filter, 'codes.scopes.has', true), FILTER_VALIDATE_BOOLEAN);
+            $this->repository->filterByIds($needleScopes, $isContains);
+        }
     }
 
     /**

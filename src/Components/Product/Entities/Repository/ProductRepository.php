@@ -82,4 +82,17 @@ class ProductRepository extends AbstractRepository implements ProductRepositoryC
 
         return $this;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function filterByCodes(array $values, bool $contains = true): ProductRepositoryContract
+    {
+        $operator = $contains ? 'IN' : 'NOT IN';
+
+        $this->builder()->setParameter('codes', $values);
+        $this->builder()->andWhere("{$this->getAlias()}.code {$operator} (:codes)");
+
+        return $this;
+    }
 }
