@@ -41,9 +41,9 @@ RUN apt-get update -yqq && \
 
 # install xdebug dependencies
 
-ADD ./xdebug.ini /usr/local/etc/php/conf.d
-RUN pecl install xdebug-3.0.4 && \
-        docker-php-ext-enable xdebug
+#ADD ./xdebug.ini /usr/local/etc/php/conf.d
+#RUN pecl install xdebug-3.0.4 && \
+#        docker-php-ext-enable xdebug
 
 ADD symfony.ini /usr/local/etc/php/conf.d
 RUN chown -R www-data:www-data /var/www
