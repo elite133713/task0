@@ -1,0 +1,59 @@
+version: '2.2'
+
+services:
+
+    mysql:
+      build:
+        context: ./mysql
+      container_name: "${COMPOSE_PROJECT_NAME}-mysql"
+      environment:
+        - MYSQL_DATABASE=master
+        - MYSQL_USER=master
+        - MYSQL_PASSWORD=master
+        - MYSQL_ROOT_PASSWORD=root
+      volumes:
+        - ./data/mysql:/var/lib/mysql
+      ports:
+        - "${MYSQL_PORT}:3306"
+      depends_on:
+        - nginx
+      networks:
+        - golden-gate
+
+    nginx:
+      build:
+        context: ./nginx
+      container_name: "${COMPOSE_PROJECT_NAME}-nginx"
+      volumes:
+        - ../:/var/www:cached
+        - ./logs/nginx/:/var/log/nginx
+        - ./nginx/sites/:/etc/nginx/sites-available
+      ports:
+        - "${NGINX_PORT}:8080"
+      depends_on:
+        - php-fpm
+      networks:
+        - golden-gate
+
+    php-fpm:
+      build:
+        context: ./php-fpm
+      container_name: "${COMPOSE_PROJECT_NAME}-php-fpm"
+      environment:
+        PHP_XDEBUG_ENABLED: 1
+        PHP_IDE_CONFIG: "serverName=${PHPSTORM_SERVER_NAME}"
+        XDEBUG_CONFIG: ${XDEBUG_CONFIG}
+      volumes:
+        - ../:/var/www:cached
+      ports:
+        - "${PORTAINER_PORT}:9001"
+      networks:
+        - golden-gate
+
+networks:
+  golden-gate:
+    driver: "bridge"
+
+volumes:
+  mysql:
+    driver: "local"

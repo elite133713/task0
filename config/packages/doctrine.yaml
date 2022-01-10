@@ -1,7 +1,9 @@
 doctrine:
     dbal:
         url: '%env(resolve:DATABASE_URL)%'
-
+        types:
+            uuid:  Ramsey\Uuid\Doctrine\UuidType
+            identity: App\Convention\ValueObjects\Identity\Doctrine\IdentityType
         # IMPORTANT: You MUST configure your server version,
         # either here or in the DATABASE_URL env var (see .env file)
         #server_version: '13'
@@ -10,9 +12,11 @@ doctrine:
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: true
         mappings:
-            App:
+            ProductEntitie:
                 is_bundle: false
-                type: annotation
-                dir: '%kernel.project_dir%/src/Entity'
-                prefix: 'App\Entity'
-                alias: App
+                type: yml
+                dir: '%kernel.project_dir%/src/Components/Product/Mappings'
+                prefix: 'App'
+                alias: Product
+        resolve_target_entities:
+            App\Components\Product\Entities\ProductContract: App\Components\Product\Entities\ProductEntity

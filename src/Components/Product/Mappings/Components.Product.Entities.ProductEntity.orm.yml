@@ -1,0 +1,32 @@
+App\Components\Product\Entities\ProductEntity:
+  type: entity
+  table: products
+  id:
+    identity:
+      type: identity
+      unique: true
+      column: id
+  fields:
+    name:
+      type: string
+      length: 50
+    description:
+      type: string
+      length: 255
+      nullable: true
+    code:
+      type: string
+      length: 10
+      unique: true
+    price:
+      type: decimal
+      unsigned: true
+    stock:
+      type: integer
+      unsigned: true
+    discontinued_at:
+      type: datetime
+    created_at:
+      type: datetime
+    updated_at:
+      type: datetime
